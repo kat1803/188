@@ -235,16 +235,31 @@ class App extends Component {
 
         {this.state.about ? (
           <Paper style={{alignSelf:'center', width: 500, margin:10, marginLeft: '30%', fontSize: 25}}>
+            <br/>
             Kickstarter prediction is the website that allow people to enter their project and predict the probabily of achiveing their goal.
+            <br/>
+            <br/>
+            Hope you can test it and enjoy it. 
+            <br/>
+            <br/>
+            and give us some feedback
+            <br/>
             <br/>
             Developers for this project are:
             <br/>
+            <br/>
             Nhi Tran 
+            <br/>
             <br/>
             Phuc Le 
             <br/>
+            <br/>
             Zhonglin 
-
+            <br/>
+            <br/>
+            Thank you
+            <br/>
+            <br/>
           </Paper>
           
         ) : (
