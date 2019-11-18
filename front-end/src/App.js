@@ -10,27 +10,29 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 
 import MenuItem from "@material-ui/core/MenuItem";
+import { red } from "@material-ui/core/colors";
 //import About from './About.js';
 
-const styles = makeStyles(theme => ({
+const styles = {
   button: {
-    margin: theme.spacing(2),
+    margin: 2,
     marginTop: 10,
     marginBottom: 10
   },
   textfield: {
-    margin: theme.spacing(2)
+    margin: 2,
+    marginTop: 25
   },
   paper: {
-    verticalAlign: "middle",
-    width: 400
+    flexDirection: 'row',
+    width: 600
   },
   container: {
     display: "flex",
-    margin: theme.spacing(5),
+    margin: 5,
     marginLeft: 300
   }
-}));
+};
 
 class App extends Component {
   constructor(props) {
@@ -203,28 +205,27 @@ class App extends Component {
           <div>
             <Button
               color="secondary"
-              className={classes.button}
               onClick={() => this.setHome()}
             >
               Home
             </Button>
             <Button
               color="secondary"
-              className={classes.button}
+              style={styles.button}
               onClick={() => this.setExample1()}
             >
               Project example 1
             </Button>
             <Button
               color="secondary"
-              className={classes.button}
+              //className={classes.button}
               onClick={() => this.setExample2()}
             >
               Project example 2
             </Button>
             <Button
               color="secondary"
-              className={classes.button}
+              //className={classes.button}
               onClick={() => this.setAbout()}
             >
               About
@@ -233,16 +234,30 @@ class App extends Component {
         </header>
 
         {this.state.about ? (
-          "About blah blah blah"
+          <Paper style={{alignSelf:'center', width: 500, margin:10, marginLeft: '30%', fontSize: 25}}>
+            Kickstarter prediction is the website that allow people to enter their project and predict the probabily of achiveing their goal.
+            <br/>
+            Developers for this project are:
+            <br/>
+            Nhi Tran 
+            <br/>
+            Phuc Le 
+            <br/>
+            Zhonglin 
+
+          </Paper>
+          
         ) : (
           <h2>
-            <div className={classes.container}>
-              <Paper className={classes.paper}>
+            <div style={styles.container}>
+              <Paper style={{verticalAlign: "middle", width: 400}}>
                 <Typography variant="h5">
                   Please enter your project details for prediction
                 </Typography>
+                <div>
                 <InputLabel id="label1">Category</InputLabel>
                 <Select
+                style={styles.textfield}
                   labelId="label1"
                   id="label"
                   value={this.state.category}
@@ -252,9 +267,10 @@ class App extends Component {
                     <MenuItem value={category}>{category}</MenuItem>
                   ))}
                 </Select>
+                </div>
                 <TextField
                   id="outlined-basic"
-                  className={classes.textfield}
+                  style={styles.textfield}
                   label="Project name"
                   margin="normal"
                   variant="outlined"
@@ -262,11 +278,11 @@ class App extends Component {
                   value={this.state.project_name}
                 />
                 <TextField
+                style={styles.textfield}
                   id="date"
                   label="Project startdate"
                   type="date"
                   variant="outlined"
-                  className={classes.textfield}
                   InputLabelProps={{
                     shrink: true
                   }}
@@ -274,11 +290,11 @@ class App extends Component {
                   value={this.state.start_date}
                 />
                 <TextField
+                style={styles.textfield}
                   id="date"
                   label="End date"
                   type="date"
                   variant="outlined"
-                  className={classes.textfield}
                   InputLabelProps={{
                     shrink: true
                   }}
@@ -287,7 +303,7 @@ class App extends Component {
                 />
                 <TextField
                   id="outlined-basic"
-                  className={classes.textfield}
+                  style={styles.textfield}
                   label="Goal"
                   margin="normal"
                   variant="outlined"
@@ -295,7 +311,7 @@ class App extends Component {
                   value={this.state.goal}
                 />
                 <TextField
-                  className={classes.textfield}
+                  style={styles.textfield}
                   id="outlined-multiline-static"
                   label="Blurb"
                   multiline
@@ -307,17 +323,19 @@ class App extends Component {
                   value={this.state.description}
                 />
               </Paper>
-              <Paper style={{ marginLeft: 50, width: 400 }}>
+              <Paper style={styles.paper}>
                 <h2>Features</h2>
-
-                {Object.keys(features).map((key, index) => (
+                  <Typography style={{fontSize:25}}>
+                  {Object.keys(features).map((key, index) => (
                   <p key={index}>
                     {key}: {features[key]}
                   </p>
                 ))}
-                <h2>Prediction</h2>
-                <p>
-                  {Math.round(pct_predict * 10) / 10}% chance of meeting the
+                  </Typography>
+                
+                <h2>Prediction Result</h2>
+                <p >
+                  {Math.round(pct_predict * 10) / 10} % chance of meeting the
                   goal
                 </p>
               </Paper>
