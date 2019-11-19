@@ -89,7 +89,7 @@ class App extends Component {
       about: true
     });
   }
-
+/*
   descriptionUpdate(event) {
     this.setState({ description: event.target.value });
   }
@@ -108,7 +108,7 @@ class App extends Component {
   categoryUpdate(event) {
     this.setState({ category: event.target.value });
   }
-
+*/
   render() {
     var categories = [
       "publishing",
@@ -236,7 +236,7 @@ class App extends Component {
         {this.state.about ? (
           <Paper style={{alignSelf:'center', width: 500, margin:10, marginLeft: '30%', fontSize: 25}}>
             <br/>
-            Kickstarter prediction is the website that allow people to enter their project and predict the probabily of achiveing their goal.
+            Kickstarter prediction is the website that allow people to enter their project and predict the probability of achiveing their goal.
             <br/>
             <br/>
             Hope you can test it and enjoy it. 
@@ -276,7 +276,7 @@ class App extends Component {
                   labelId="label1"
                   id="label"
                   value={this.state.category}
-                  onChange={this.categoryUpdate.bind(this)}
+                  //onChange={this.categoryUpdate.bind(this)}
                 >
                   {categories.map(category => (
                     <MenuItem value={category}>{category}</MenuItem>
@@ -289,8 +289,8 @@ class App extends Component {
                   label="Project name"
                   margin="normal"
                   variant="outlined"
-                  onChange={this.projectNameUpdate.bind(this)}
-                  value={this.state.project_name}
+                  //onChange={this.projectNameUpdate.bind(this)}
+                  //value={this.state.project_name}
                 />
                 <TextField
                 style={styles.textfield}
@@ -301,8 +301,8 @@ class App extends Component {
                   InputLabelProps={{
                     shrink: true
                   }}
-                  onChange={this.startDateUpdate.bind(this)}
-                  value={this.state.start_date}
+                  //onChange={this.startDateUpdate.bind(this)}
+                  //value={this.state.start_date}
                 />
                 <TextField
                 style={styles.textfield}
@@ -313,8 +313,8 @@ class App extends Component {
                   InputLabelProps={{
                     shrink: true
                   }}
-                  onChange={this.endDateUpdate.bind(this)}
-                  value={this.state.end_date}
+                  //onChange={this.endDateUpdate.bind(this)}
+                  //value={this.state.end_date}
                 />
                 <TextField
                   id="outlined-basic"
@@ -322,8 +322,8 @@ class App extends Component {
                   label="Goal"
                   margin="normal"
                   variant="outlined"
-                  onChange={this.goalUpdate.bind(this)}
-                  value={this.state.goal}
+                  //onChange={this.goalUpdate.bind(this)}
+                  //value={this.state.goal}
                 />
                 <TextField
                   style={styles.textfield}
@@ -334,9 +334,16 @@ class App extends Component {
                   //defaultValue="Please enter your project description"
                   margin="normal"
                   variant="outlined"
-                  onChange={this.descriptionUpdate.bind(this)}
-                  value={this.state.description}
+                  //onChange={this.descriptionUpdate.bind(this)}
+                  //value={this.state.description}
                 />
+                 <Button
+                  variant="contained"
+                  color="primary"
+                  style={styles.button}
+                >
+                  Start to predict
+                </Button>
               </Paper>
               <Paper style={styles.paper}>
                 <h2>Features</h2>
@@ -361,14 +368,5 @@ class App extends Component {
     );
   }
 }
-/*
 
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.button}
-                >
-                  Start to predict
-                </Button>
-                */
 export default withStyles(styles)(App);
