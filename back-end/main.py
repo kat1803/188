@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Actual machine learning that used to train model
 """
 Documentation
 

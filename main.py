@@ -1,3 +1,6 @@
+#this is the simple machine learning use to only test the UI
+#not the actual machine learning to train the model
+
 import pandas
 from sklearn.linear_model import LogisticRegression
 
