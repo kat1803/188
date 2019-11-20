@@ -30,9 +30,10 @@ def create_app(config=None):
 
 	@app.route("/predict/")
 	def predict():
+		print ("request.args", request.args)
 		result = model.predict(request.args)
 		print ("result", result)
-		return jsonify({"result": str(result), "error": None})
+		return jsonify({"result": result["prediction"][0][0], "error": None})
 
 	return app
 
