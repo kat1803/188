@@ -1,42 +1,57 @@
-#this is the simple machine learning use to only test the UI
-#not the actual machine learning to train the model
+#!/usr/bin/env python3
+# Actual machine learning that used to train model
+"""
+Documentation
 
-import pandas
-from sklearn.linear_model import LogisticRegression
+See also https://www.python-boilerplate.com/flask
+"""
+import os
+import argparse
+from flask import Flask, jsonify, request, render_template, send_from_directory
 
-# read datasets
-data = pandas.read_csv("MasterKickstarter.csv")
+from flask_cors import CORS
 
-data = data[
-    ((data.status == "successful") | (data.status == "failed")) & (data.goal > 0)
-]
+import model
 
-features = pandas.DataFrame()
+def create_app(config=None):
+	# app = Flask(__name__)
+	app = Flask(__name__, static_folder="front-end/build/static", template_folder="build")
 
-features["goal"] = data["goal"]
-
-results = data["status"].transform(lambda x: 1 if x == "successful" else 0)
-features["name_length"] = data["name"].transform(lambda x: len(x))
-features["description_length"] = data["blurb"].transform(lambda x: len(x))
-features["days"] = data["Length_of_kick"]
-
-
-for val in data["Categories"].unique():
-    features[val.replace("%20&%20", "&")] = data["Categories"].transform(lambda x: 1 if x == val else 0)
-
-transform = {}
-for feature in features.columns:
-    val = features[feature].max()
-    transform[feature] = val
-    features[feature] = features[feature].transform(
-        lambda x: x / val
-    )
+	@app.route("/")
+	def hello():
+	    # return render_template('front-end/build/index.html')
+	    return send_from_directory('front-end/build/', 'index.html')
 
 
-c = LogisticRegression().fit(features, results)
+	# See http://flask.pocoo.org/docs/latest/config/
+	app.config.update(dict(DEBUG=True))
+	app.config.update(config or {})
 
-print(f"Score is {c.score(features, results)}")
+	# Setup cors headers to allow all domains
+	# https://flask-cors.readthedocs.io/en/latest/
+	CORS(app)
 
-print("var transform =", transform, ";")
-print("var coefficients =", {a: b for a, b in zip(features.columns, c.coef_[0])}, ";")
-print("var intercept =", c.intercept_[0], ";")
+	# # Definition of the routes. Put them into their own file. See also
+	# # Flask Blueprints: http://flask.pocoo.org/docs/latest/blueprints
+	# @app.route("/")
+	# def home():
+	# 	return "Wellcome to API"
+
+	@app.route("/predict/")
+	def predict():
+		print ("request.args", request.args)
+		result = model.predict(request.args)
+		print ("result", result)
+		return jsonify({"result": result["prediction"][0][1], "error": None})
+
+	return app
+
+
+if __name__ == "__main__":
+	parser = argparse.ArgumentParser()
+	parser.add_argument("-p", "--port", action="store", default="8000")
+
+	args = parser.parse_args()
+	port = int(args.port)
+	app = create_app()
+	app.run(host="0.0.0.0", port=port)
