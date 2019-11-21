@@ -1,42 +1,40 @@
-#this is the simple machine learning use to only test the UI
-#not the actual machine learning to train the model
+#!/usr/bin/env python3
+import os
+import argparse
+from flask import Flask, jsonify, request, render_template, send_from_directory
 
-import pandas
-from sklearn.linear_model import LogisticRegression
+from flask_cors import CORS
 
-# read datasets
-data = pandas.read_csv("MasterKickstarter.csv")
+import model
 
-data = data[
-    ((data.status == "successful") | (data.status == "failed")) & (data.goal > 0)
-]
+def create_app(config=None):
+	# app = Flask(__name__)
+	app = Flask(__name__, static_folder="front-end/build/static", template_folder="build")
 
-features = pandas.DataFrame()
+	@app.route("/")
+	def hello():
+	    # return render_template('front-end/build/index.html')
+	    return send_from_directory('front-end/build/', 'index.html')
 
-features["goal"] = data["goal"]
+	app.config.update(dict(DEBUG=True))
+	app.config.update(config or {})
 
-results = data["status"].transform(lambda x: 1 if x == "successful" else 0)
-features["name_length"] = data["name"].transform(lambda x: len(x))
-features["description_length"] = data["blurb"].transform(lambda x: len(x))
-features["days"] = data["Length_of_kick"]
+	CORS(app)
 
+	@app.route("/predict/")
+	def predict():
+		print ("request.args", request.args)
+		result = model.predict(request.args)
+		print ("result", result)
+		return jsonify({"result": result["prediction"][0][1], "error": None})
 
-for val in data["Categories"].unique():
-    features[val.replace("%20&%20", "&")] = data["Categories"].transform(lambda x: 1 if x == val else 0)
-
-transform = {}
-for feature in features.columns:
-    val = features[feature].max()
-    transform[feature] = val
-    features[feature] = features[feature].transform(
-        lambda x: x / val
-    )
+	return app
 
 
-c = LogisticRegression().fit(features, results)
-
-print(f"Score is {c.score(features, results)}")
-
-print("var transform =", transform, ";")
-print("var coefficients =", {a: b for a, b in zip(features.columns, c.coef_[0])}, ";")
-print("var intercept =", c.intercept_[0], ";")
+if __name__ == "__main__":
+	parser = argparse.ArgumentParser()
+	parser.add_argument("-p", "--port", action="store", default="8000")
+	args = parser.parse_args()
+	port = int(args.port)
+	app = create_app()
+	app.run(host="0.0.0.0", port=port)

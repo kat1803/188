@@ -1,7 +1,6 @@
 import "./App.css";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, TextField } from "@material-ui/core";
-
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import React, { Component } from "react";
@@ -11,8 +10,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 
 import MenuItem from "@material-ui/core/MenuItem";
 import { red } from "@material-ui/core/colors";
-//import About from './About.js';
 
+//style for the website
 const styles = {
   button: {
     margin: 2,
@@ -42,10 +41,37 @@ class App extends Component {
       description: "",
       start_date: "",
       category: "",
-      end_date: "",
+	  end_date: "",
+	  prediction: 0,
       goal: 0,
       about: false
-    };
+	};
+	this.callAPI = this.callAPI.bind(this)
+  }
+
+  async callAPI(){
+	  let {goal, description, start_date, end_date, project_name, category} = this.state
+	  if (      
+		  project_name !== "" &&
+	      description !== "" &&
+	      start_date !== "" &&
+	      category !== "" &&
+		  end_date !== ""
+		  ){
+			const Length_of_kick = (new Date(end_date).getTime() - new Date(start_date).getTime())/(1000*60*60*24)
+			  try {
+				  const response = await fetch(`http://localhost:8000/predict?goal=${goal}&name=${project_name}&blurb=${description}&Length_of_kick=${Length_of_kick}`);
+				  const result = await response.json();
+				  console.log('Success:', result);
+				  this.setState({prediction: result.result})
+				} catch (error) {
+				  console.error('Error:', error);
+				}
+			  
+		  }
+		  else{
+			  alert("Please enter all input!")
+		  }
   }
 
   setExample1() {
@@ -275,8 +301,8 @@ class App extends Component {
                 style={styles.textfield}
                   labelId="label1"
                   id="label"
-                  value={this.state.category}
-                  //onChange={this.categoryUpdate.bind(this)}
+                  value={this.state.category.value}
+                  onChange={(event)=> this.setState({category: event.target.value })}
                 >
                   {categories.map(category => (
                     <MenuItem value={category}>{category}</MenuItem>
@@ -289,8 +315,8 @@ class App extends Component {
                   label="Project name"
                   margin="normal"
                   variant="outlined"
-                  //onChange={this.projectNameUpdate.bind(this)}
-                  //value={this.state.project_name}
+                  onChange={(event)=> this.setState({project_name: event.target.value })}
+                  value={this.state.project_name}
                 />
                 <TextField
                 style={styles.textfield}
@@ -301,8 +327,8 @@ class App extends Component {
                   InputLabelProps={{
                     shrink: true
                   }}
-                  //onChange={this.startDateUpdate.bind(this)}
-                  //value={this.state.start_date}
+                  onChange={(event)=> this.setState({start_date: event.target.value })}
+                  value={this.state.start_date}
                 />
                 <TextField
                 style={styles.textfield}
@@ -313,8 +339,8 @@ class App extends Component {
                   InputLabelProps={{
                     shrink: true
                   }}
-                  //onChange={this.endDateUpdate.bind(this)}
-                  //value={this.state.end_date}
+				  onChange={(event)=> this.setState({end_date: event.target.value })}
+                  value={this.state.end_date}
                 />
                 <TextField
                   id="outlined-basic"
@@ -322,8 +348,8 @@ class App extends Component {
                   label="Goal"
                   margin="normal"
                   variant="outlined"
-                  //onChange={this.goalUpdate.bind(this)}
-                  //value={this.state.goal}
+                  onChange={(event)=> this.setState({goal: event.target.value })}
+                  value={this.state.goal}
                 />
                 <TextField
                   style={styles.textfield}
@@ -334,13 +360,14 @@ class App extends Component {
                   //defaultValue="Please enter your project description"
                   margin="normal"
                   variant="outlined"
-                  //onChange={this.descriptionUpdate.bind(this)}
-                  //value={this.state.description}
+                  onChange={(event)=> this.setState({description: event.target.value })}
+                  value={this.state.description}
                 />
                  <Button
                   variant="contained"
                   color="primary"
-                  style={styles.button}
+				  style={styles.button}
+				  onClick={this.callAPI}
                 >
                   Start to predict
                 </Button>
@@ -357,9 +384,13 @@ class App extends Component {
                 
                 <h2>Prediction Result</h2>
                 <p >
-                  {Math.round(pct_predict * 10) / 10} % chance of meeting the
+                  {(this.state.prediction*100).toFixed(1)} % chance of meeting the
                   goal
                 </p>
+                {/* <p >
+                  {Math.round(pct_predict * 10) / 10} % chance of meeting the
+                  goal
+                </p> */}
               </Paper>
             </div>
           </h2>
