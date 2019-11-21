@@ -272,13 +272,13 @@ def train():
 	# print(tfidf_vect.vocabulary_)
 
 def predict(input):
-		# save model
-	filename = 'model.sav'
 	# load the model
+	# New updated model
+	filename = 'mlp_model.sav'
+	# Old model
+	# filename = 'model.sav'
 	loaded_model = joblib.load(filename)
-	# print (input)
 	predicted = loaded_model.predict_proba(input)
-	# print (predicted)
 	return predicted
 
 # train()
@@ -294,4 +294,4 @@ data = {
 processedData = preProcessing(data)
 res = predict(processedData)
 
-# print("res", res)
+print("res", res)
