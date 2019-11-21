@@ -1,10 +1,4 @@
 #!/usr/bin/env python3
-# Actual machine learning that used to train model
-"""
-Documentation
-
-See also https://www.python-boilerplate.com/flask
-"""
 import os
 import argparse
 from flask import Flask, jsonify, request, render_template, send_from_directory
@@ -22,20 +16,10 @@ def create_app(config=None):
 	    # return render_template('front-end/build/index.html')
 	    return send_from_directory('front-end/build/', 'index.html')
 
-
-	# See http://flask.pocoo.org/docs/latest/config/
 	app.config.update(dict(DEBUG=True))
 	app.config.update(config or {})
 
-	# Setup cors headers to allow all domains
-	# https://flask-cors.readthedocs.io/en/latest/
 	CORS(app)
-
-	# # Definition of the routes. Put them into their own file. See also
-	# # Flask Blueprints: http://flask.pocoo.org/docs/latest/blueprints
-	# @app.route("/")
-	# def home():
-	# 	return "Wellcome to API"
 
 	@app.route("/predict/")
 	def predict():
