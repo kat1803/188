@@ -34,7 +34,7 @@ def create_app(config=None):
 		print ("request.args", request.args)
 		result = model.predict(request.args)
 		print ("result", result)
-		return jsonify({"result": result["prediction"][0][0], "error": None})
+		return jsonify({"result": result["prediction"][0][1], "error": None})
 
 	return app
 

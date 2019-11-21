@@ -385,7 +385,7 @@ class App extends Component {
                 
                 <h2>Prediction Result</h2>
                 <p >
-                  {this.state.prediction.toFixed(2)*100} % chance of meeting the
+                  {(this.state.prediction*100).toFixed(1)} % chance of meeting the
                   goal
                 </p>
                 {/* <p >
