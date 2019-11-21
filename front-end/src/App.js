@@ -1,7 +1,6 @@
 import "./App.css";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, TextField } from "@material-ui/core";
-
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import React, { Component } from "react";
@@ -11,8 +10,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 
 import MenuItem from "@material-ui/core/MenuItem";
 import { red } from "@material-ui/core/colors";
-//import About from './About.js';
 
+//style for the website
 const styles = {
   button: {
     margin: 2,
