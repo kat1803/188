@@ -286,12 +286,13 @@ def predict(input):
 # nltk.download('wordnet')
 # nltk.download('averaged_perceptron_tagger')
 # nltk.download('stopwords')
-data = {
-	"goal": 5000,
-	"Length_of_kick": 40,
-	"blurb": "E-motive Australia Homemade Rustic Picture Boards Music",
-}
-processedData = preProcessing(data)
-res = predict(processedData)
 
-print("res", res)
+# data = {
+# 	"goal": 5000,
+# 	"Length_of_kick": 40,
+# 	"blurb": "E-motive Australia Homemade Rustic Picture Boards Music",
+# }
+# processedData = preProcessing(data)
+# res = predict(processedData)
+
+# print("res", res)
