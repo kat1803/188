@@ -8,7 +8,6 @@ See also https://www.python-boilerplate.com/flask
 import os
 import argparse
 from flask import Flask, jsonify, request, render_template, send_from_directory
-import nltk
 
 from flask_cors import CORS
 
@@ -51,12 +50,6 @@ def create_app(config=None):
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
 	parser.add_argument("-p", "--port", action="store", default="8000")
-
-	nltk.download('punkt')
-	nltk.download('wordnet')
-	nltk.download('averaged_perceptron_tagger')
-	nltk.download('stopwords')
-
 	args = parser.parse_args()
 	port = int(args.port)
 	app = create_app()
