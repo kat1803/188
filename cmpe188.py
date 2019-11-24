@@ -77,7 +77,7 @@ def preProcessing(data):
 	            Final_words.append(word_Final)
 	    # The final processed set of words for each iteration will be stored in 'text_final'
 	    df.loc[index,'word_token'] = str(Final_words)
-	    print('progress: ',index)
+	    # print('progress: ',index)
 	# tfidf_vect = TfidfVectorizer(max_features = 5000)
 	# tfidf_vect.fit(df['word_token'])
 	# x_tfidf = tfidf_vect.transform(df['word_token'])
